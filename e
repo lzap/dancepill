@@ -1,26 +1,35 @@
 #!/bin/bash
 
 e() { 
-	for EXTRACT_FILE in $*; do
-		if [ -f "$EXTRACT_FILE" ] ; then 
-			FT1=$(file -bi "$EXTRACT_FILE" | grep -Eo '[[:alnum:]_-]+/[[:alnum:]_-]+')
+	for F in $*; do
+		if [ -f "$F" ] ; then 
+			FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]_-]+/[[:alnum:]_-]+')
+      DIR="$F-e"
+      mkdir "$DIR" || exit 1
+      pushd "$DIR"
 			case $FT1 in 
-				"application/x-bzip2") tar xvjf "$EXTRACT_FILE" || bunzip2 "$EXTRACT_FILE" ;; 
-				"application/x-gzip") tar xvzf "$EXTRACT_FILE" || gunzip "$EXTRACT_FILE" ;; 
-				"application/x-rar") unrar x "$EXTRACT_FILE" || rar x "$EXTRACT_FILE" ;; 
-				"application/x-arj") arj x "$EXTRACT_FILE" || 7za x "$EXTRACT_FILE" ;; 
-				"application/x-lha") lha x "$EXTRACT_FILE" || 7za x "$EXTRACT_FILE" ;; 
-				"application/x-cpio") cpio -i "$EXTRACT_FILE" ;; 
-				"application/x-tar") tar xvf "$EXTRACT_FILE" || gunzip "$EXTRACT_FILE" ;; 
-				"application/x-zip") unzip "$EXTRACT_FILE" ;; 
-				"application/zip") unzip "$EXTRACT_FILE" ;; 
-				"application/x-7z-compressed") 7za x "$EXTRACT_FILE" ;; 
-				"application/x-7za-compressed") 7za x "$EXTRACT_FILE" ;; 
-				"application/octet-stream") unlzma "$EXTRACT_FILE" || 7za x "$EXTRACT_FILE" || uncompress "$EXTRACT_FILE" ;; 
-				*) echo "'$EXTRACT_FILE' ($FT1) cannot be extracted via e() bash function" ;; 
+				"application/x-bzip2") tar xvjf "../$F" || bunzip2 "../$F" ;; 
+				"application/x-gzip") tar xvzf "../$F" || gunzip "../$F" ;; 
+				"application/x-xz") tar xvJf "../$F" ;; 
+				"application/x-rar") unrar x "../$F" || rar x "../$F" ;; 
+				"application/x-arj") arj x "../$F" || 7za x "../$F" ;; 
+				"application/x-lha") lha x "../$F" || 7za x "../$F" ;; 
+				"application/x-cpio") cpio -i "../$F" ;; 
+				"application/x-tar") tar xvf "../$F" || gunzip "../$F" ;; 
+				"application/x-zip") unzip "../$F" ;; 
+				"application/zip") unzip "../$F" ;; 
+				"application/x-7z-compressed") 7za x "../$F" ;; 
+				"application/x-7za-compressed") 7za x "../$F" ;; 
+				"application/octet-stream") unlzma "../$F" || 7za x "../$F" || uncompress "../$F" ;; 
+				*) echo "'../$F' ($FT1) cannot be extracted via e() bash function" ;; 
 			esac 
+      popd
+      # expecting only one file
+      if [ "$(ls "$DIR" | wc -l)" == "1" ]; then
+        mv -v "$DIR/*" . && rmdir "$DIR"
+      fi
 		else 
-			echo "'$EXTRACT_FILE' is not a valid file" 
+			echo "'$F' is not a valid file" 
 		fi 
 	done
 }
