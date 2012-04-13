@@ -27,7 +27,7 @@ e() {
       popd
       # expecting only one file
       if [ "$(ls "$DIR" | wc -l)" == "1" ]; then
-        mv -v "$DIR/*" . && rmdir "$DIR"
+        mv -v "$DIR"/* . && rmdir "$DIR"
       fi
     else 
       echo "'$F' is not a valid file" 
