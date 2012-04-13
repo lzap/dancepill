@@ -2,7 +2,7 @@
 # :vim sw=2:ts=2:et
 
 e() { 
-  for F in $*; do
+  for F in "$@"; do
     if [ -f "$F" ] ; then 
       FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]_-]+/[[:alnum:]_-]+')
       DIR="$F-e"
