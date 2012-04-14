@@ -11,7 +11,7 @@ e() {
       case $FT1 in 
         "application/x-bzip2") tar xvjf "../$F" || bunzip2 "../$F" ;; 
         "application/x-gzip") tar xvzf "../$F" || gunzip "../$F" ;; 
-        "application/x-xz") tar xvJf "../$F" ;; 
+        "application/x-xz") tar xvJf "../$F" || xz -d "../$F" ;; 
         "application/x-rar") unrar x "../$F" || rar x "../$F" ;; 
         "application/x-arj") arj x "../$F" || 7za x "../$F" ;; 
         "application/x-lha") lha x "../$F" || 7za x "../$F" ;; 
