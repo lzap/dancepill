@@ -5,8 +5,7 @@ e() {
   for F in "$@"; do
     if [ -f "$F" ] ; then 
       FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]_-]+/[[:alnum:]_-]+')
-      DIR="$F-e"
-      mkdir "$DIR" || exit 1
+      DIR=$(mktemp -d -p . -t "$F-XXXXXXXX")
       pushd "$DIR"
       case $FT1 in 
         "application/x-bzip2") tar xvjf "../$F" || bunzip2 "../$F" ;; 
@@ -18,6 +17,7 @@ e() {
         "application/x-cpio") cpio -i "../$F" ;; 
         "application/x-tar") tar xvf "../$F" || gunzip "../$F" ;; 
         "application/x-zip") unzip "../$F" ;; 
+        "application/x-rpm") rpm2cpio "../$F" | cpio -idmv ;; 
         "application/zip") unzip "../$F" ;; 
         "application/x-7z-compressed") 7za x "../$F" ;; 
         "application/x-7za-compressed") 7za x "../$F" ;; 
@@ -25,7 +25,7 @@ e() {
         *) echo "'../$F' ($FT1) cannot be extracted via e() bash function" ;; 
       esac 
       popd
-      # expecting only one file
+      # expecting only one file/directory to be extracted (prevent mess)
       if [ "$(ls "$DIR" | wc -l)" == "1" ]; then
         mv -v "$DIR"/* . && rmdir "$DIR"
       fi
