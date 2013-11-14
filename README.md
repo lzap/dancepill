@@ -6,10 +6,15 @@ Quick extract script for Bash.
 The problem
 -----------
 
-You want to extract directory fast. Using midnight commander or other 
-extraction tools is very slow. Use dancepill, in your .bashrc do:
+You want to extract directory fast. Using midnight commander or other
+extraction tools is very slow. Use dancepill:
 
-    source path/to/your/git/clone/e
+    cd ~/bin
+    git clone https://github.com/lzap/dancepill.git
+
+And in your .bashrc do:
+
+    source ~/bin/dancepill/dancepill
 
 Logout or source it in your current terminal and start extracting:
 
@@ -18,6 +23,10 @@ Logout or source it in your current terminal and start extracting:
     e tarball.xz
     e tarball.zip
     e whatever
+
+There an function name called `dancepill` that does the extraction plus alias
+`e` for it. Lot's of users already use `e` as an alias, so it can be
+redefined.
 
 Additional features
 -------------------
