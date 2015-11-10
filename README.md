@@ -29,8 +29,8 @@ Logout or source it in your current terminal and start extracting:
     eeee whatever
 
 There an function name called `dancepill` that does the extraction plus alias
-`eeee` for it. This is a safe alias to start with, if you want something
-short, do this in your .bashrc:
+`eeee` for it. Dancepill also installs `e` alias, but only in case it was not
+yet used. If you still want to use this one, do this in your .bashrc:
 
     alias e=dancepill
 
