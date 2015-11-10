@@ -1,13 +1,17 @@
 Dancepill
 =========
 
-Quick extract script for Bash.
+Quick extract script for shell (currently only tested with Bash).
 
 The problem
 -----------
 
-You want to extract directory fast. Using midnight commander or other
-extraction tools is very slow. Use dancepill:
+You want to extract a tarball or ZIP and you don't care what format it is to
+pick up the right tool. The file does not need to have the correct extension.
+And you want this fast, fallback method with Midnight Commander might be slow
+due to zillion of IO terminal operations...
+
+The Dancepill to the rescue!
 
     cd ~/bin
     git clone https://github.com/lzap/dancepill.git
@@ -18,22 +22,44 @@ And in your .bashrc do:
 
 Logout or source it in your current terminal and start extracting:
 
-    e tarball.tar.gz
-    e tarball.tar.bzip2
-    e tarball.xz
-    e tarball.zip
-    e whatever
+    eeee tarball.tar.gz
+    eeee tarball.tar.bzip2
+    eeee tarball.xz
+    eeee tarball.zip
+    eeee whatever
 
 There an function name called `dancepill` that does the extraction plus alias
-`e` for it. Lot's of users already use `e` as an alias, so it can be
-redefined.
+`eeee` for it. This is a safe alias to start with, if you want something
+short, do this in your .bashrc:
+
+    alias e=dancepill
+
+Supported formats
+-----------------
+
+Format | Supported in
+-------|-------------
+7z     | 1.0
+arj    | 1.0
+bzip2  | 1.0
+cpio   | 1.0
+gzip   | 1.0
+lha    | 1.0
+rar    | 1.0
+rpm    | 1.0
+tar    | 1.0
+xz     | 1.0
+zip    | 1.0
 
 Additional features
 -------------------
 
- * If the archive does not contain only one file or directory, dancepill
-   will create an extra directory for you. No more extracted junk in the
-   current directory!
+ * If the archive does not contain only one file or directory, dancepill will
+   create an extra directory for you. No more extracted junk in the current
+   directory!
+
+ * If MIME is unknown, try to extract it with 7za or uncompress before giving
+   an error.
 
 License
 -------
