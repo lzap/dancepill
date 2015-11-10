@@ -21,6 +21,7 @@ dancepill() {
         "application/zip") unzip "../$F" ;;
         "application/x-7z-compressed") 7za x "../$F" ;;
         "application/x-7za-compressed") 7za x "../$F" ;;
+        "application/x-iso9660-image") 7z x "../$F" ;;
         "application/octet-stream") unlzma "../$F" || 7za x "../$F" || uncompress "../$F" ;;
         *) echo "'../$F' ($FT1) cannot be extracted via 'dancepill' shell function" ;;
       esac
@@ -29,6 +30,8 @@ dancepill() {
       if [ "$(ls "$DIR" | wc -l)" == "1" ]; then
         mv -v "$DIR"/* . && rmdir "$DIR"
       fi
+      # remove empty dir
+      rmdir "$DIR" 2>/dev/null
     else
       echo "'$F' is not a valid file"
     fi

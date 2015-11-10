@@ -50,6 +50,7 @@ rpm    | 1.0
 tar    | 1.0
 xz     | 1.0
 zip    | 1.0
+iso    | 1.0
 
 Additional features
 -------------------
