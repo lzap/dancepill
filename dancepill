@@ -40,4 +40,4 @@ dancepill() {
 
 alias eeee=dancepill
 # only set this when it is not defined yet
-alias e >/dev/null || alias e=dancepill2
+alias e >/dev/null 2>&1 || alias e=dancepill2
