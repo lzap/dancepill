@@ -1,17 +1,26 @@
-Dancepill
-=========
+Dancepill - extract them all
+============================
 
-Quick extract script for shell (currently only tested with Bash).
+Quick extract script for shell (currently only tested with BASH).
 
 The problem
 -----------
 
 You want to extract a tarball or ZIP and you don't care what format it is to
-pick up the right tool. The file does not need to have the correct extension.
-And you want this fast, fallback method with Midnight Commander might be slow
-due to zillion of IO terminal operations...
+pick up the right tool. More than that, you are not sure about the correct
+extension as the file might have been renamed incorrectly. And you want to
+extract fast.
 
-The Dancepill to the rescue!
+    tar -xzjfmpb cant_remember_all_the_options.tar.ball.blah.gz
+
+Someone might use Midnight Commander but this is *slow* due to zillion of IO
+terminal operations. Dancepill script to the rescue!
+
+Installation
+------------
+
+The script is currently not packaged for any Linux distribution, but it's a
+short BASH script:
 
     cd ~/bin
     git clone https://github.com/lzap/dancepill.git
@@ -34,6 +43,21 @@ yet used. If you still want to use this one, do this in your .bashrc:
 
     alias e=dancepill
 
+Features
+--------
+
+* Extracts all supported archives using the fastest method possible.
+
+* File type detection using `file` utility - wrong extensions are simply
+ignored.
+
+* If the archive does not contain only one file or directory, dancepill will
+create an extra directory for you. No more extracted junk in the current
+directory!
+
+* If MIME is unknown, dancepill tries several "fallback" utilities one after
+  another until one succeeds.
+
 Supported formats
 -----------------
 
@@ -51,16 +75,6 @@ tar    | 1.0
 xz     | 1.0
 zip    | 1.0
 iso    | 1.0
-
-Additional features
--------------------
-
- * If the archive does not contain only one file or directory, dancepill will
-   create an extra directory for you. No more extracted junk in the current
-   directory!
-
- * If MIME is unknown, try to extract it with 7za or uncompress before giving
-   an error.
 
 License
 -------
