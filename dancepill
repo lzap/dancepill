@@ -8,21 +8,20 @@ dancepill() {
       DIR=$(mktemp -d -p . -t "$F-XXXXXXXX")
       pushd "$DIR"
       case $FT1 in
-        "application/x-bzip2") tar xvjf "../$F" || bunzip2 "../$F" ;;
-        "application/x-gzip") tar xvzf "../$F" || gunzip "../$F" ;;
-        "application/x-xz") tar xvJf "../$F" ;;
-        "application/x-rar") unrar x "../$F" || rar x "../$F" ;;
-        "application/x-arj") arj x "../$F" || 7za x "../$F" ;;
-        "application/x-lha") lha x "../$F" || 7za x "../$F" ;;
-        "application/x-cpio") cpio -i "../$F" ;;
-        "application/x-tar") tar xvf "../$F" || gunzip "../$F" ;;
-        "application/x-zip") unzip "../$F" ;;
-        "application/x-rpm") rpm2cpio "../$F" | cpio -idmv ;;
-        "application/zip") unzip "../$F" ;;
-        "application/x-7z-compressed") 7za x "../$F" ;;
-        "application/x-7za-compressed") 7za x "../$F" ;;
-        "application/x-iso9660-image") 7z x "../$F" ;;
-        "application/octet-stream") unlzma "../$F" || 7za x "../$F" || uncompress "../$F" ;;
+        application/*bzip2) tar xvjf "../$F" || bunzip2 "../$F" ;;
+        application/*gzip) tar xvzf "../$F" || gunzip "../$F" ;;
+        application/*xz) tar xvJf "../$F" || unxz "../$F" ;;
+        application/*tar) tar xvf "../$F" || gunzip "../$F" ;;
+        application/*rar) unrar x "../$F" || rar x "../$F" ;;
+        application/*zip) unzip "../$F" ;;
+        application/*arj) arj x "../$F" || 7za x "../$F" ;;
+        application/*lha) lha x "../$F" || 7za x "../$F" ;;
+        application/*cpio) cpio -i "../$F" ;;
+        application/*rpm) rpm2cpio "../$F" | cpio -idmv ;;
+        application/*7za-compressed) 7za x "../$F" ;;
+        application/*7z-compressed) 7za x "../$F" ;;
+        application/*iso9660-image) 7z x "../$F" ;;
+        application/octet-stream) unlzma "../$F" || 7za x "../$F" || uncompress "../$F" ;;
         *) echo "'../$F' ($FT1) cannot be extracted via 'dancepill' shell function" ;;
       esac
       popd
