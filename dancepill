@@ -4,7 +4,7 @@
 dancepill() {
   for F in "$@"; do
     if [ -f "$F" ] ; then
-      FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]_-]+/[[:alnum:]_-]+')
+      FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]._-]+/[[:alnum:]._-]+')
       DIR=$(mktemp -d -p . -t "$F-XXXXXXXX")
       pushd "$DIR"
       case $FT1 in
@@ -21,6 +21,8 @@ dancepill() {
         application/*7za-compressed) 7za x "../$F" ;;
         application/*7z-compressed) 7za x "../$F" ;;
         application/*iso9660-image) 7z x "../$F" ;;
+        application/x-lzma) lzma -dv "../$F" ;;
+        application/*debian.binary-package) ar vx "../$F" ;;
         application/octet-stream) unlzma "../$F" || 7za x "../$F" || uncompress "../$F" ;;
         *) echo "'../$F' ($FT1) cannot be extracted via 'dancepill' shell function" ;;
       esac
