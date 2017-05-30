@@ -4,8 +4,10 @@
 dancepill() {
   for F in "$@"; do
     if [ -f "$F" ] ; then
+      F_ORIG="$F"
+      [ -h "$F" ] && F=$(readlink "$F")
       FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]._-]+/[[:alnum:]._-]+')
-      DIR=$(mktemp -d -p . -t "$F-XXXXXXXX")
+      DIR=$(mktemp -d -p . -t "$F_ORIG-XXXXXXXX")
       pushd "$DIR"
       case $FT1 in
         application/*bzip2) tar xvjf "../$F" || bunzip2 "../$F" ;;
@@ -24,7 +26,7 @@ dancepill() {
         application/x-lzma) lzma -dv "../$F" ;;
         application/*debian.binary-package) ar vx "../$F" ;;
         application/octet-stream) unlzma "../$F" || 7za x "../$F" || uncompress "../$F" ;;
-        *) echo "'../$F' ($FT1) cannot be extracted via 'dancepill' shell function" ;;
+        *) echo "'../$F_ORIG' ($FT1) cannot be extracted via 'dancepill' shell function" ;;
       esac
       popd
       # expecting only one file/directory to be extracted (prevent mess)
