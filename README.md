@@ -64,7 +64,7 @@ History
 -------
 
 * 1.0 - Initial version.
-* 1.1 - Changed it to be just a script not a BASH function.
+* 1.1 - Changed it to be just a script not a BASH function. Use `xorriso` instead of `7z`
 
 License
 -------
