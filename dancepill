@@ -1,46 +1,39 @@
 #!/bin/bash
-# :vim sw=2:ts=2:et
 
-dancepill() {
-  for F in "$@"; do
-    if [ -f "$F" ] ; then
-      F_ORIG="$F"
-      [ -h "$F" ] && F=$(readlink "$F")
-      FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]._-]+/[[:alnum:]._-]+')
-      DIR=$(mktemp -d -p . -t "$F_ORIG-XXXXXXXX")
-      pushd "$DIR"
-      case $FT1 in
-        application/*bzip2) tar xvjf "../$F" || bunzip2 "../$F" ;;
-        application/*gzip) tar xvzf "../$F" || gunzip "../$F" ;;
-        application/*xz) tar xvJf "../$F" || unxz "../$F" ;;
-        application/*tar) tar xvf "../$F" || gunzip "../$F" ;;
-        application/*rar) unrar x "../$F" || rar x "../$F" ;;
-        application/*zip) unzip "../$F" ;;
-        application/*arj) arj x "../$F" || 7za x "../$F" ;;
-        application/*lha) lha x "../$F" || 7za x "../$F" ;;
-        application/*cpio) cpio -i "../$F" ;;
-        application/*rpm) rpm2cpio "../$F" | cpio -idmv ;;
-        application/*iso9660-image) 7z x "../$F" ;;
-        application/*7za-compressed) 7za x "../$F" ;;
-        application/*7z-compressed) 7za x "../$F" ;;
-        application/x-lzma) lzma -dv "../$F" ;;
-        application/*debian.binary-package) ar vx "../$F" ;;
-        application/octet-stream) unlzma "../$F" || 7z x "../$F" || uncompress "../$F" ;;
-        *) echo "'../$F_ORIG' ($FT1) cannot be extracted via 'dancepill' shell function" ;;
-      esac
-      popd
-      # expecting only one file/directory to be extracted (prevent mess)
-      if [ "$(ls "$DIR" | wc -l)" == "1" ]; then
-        mv -v "$DIR"/* . && rmdir "$DIR"
-      fi
-      # remove empty dir
-      rmdir "$DIR" 2>/dev/null
-    else
-      echo "'$F' is not a valid file"
-    fi
-  done
-}
-
-alias eeee=dancepill
-# only set this when it is not defined yet
-alias e >/dev/null 2>&1 || alias e=dancepill
+for F in "$@"; do
+	if [ -f "$F" ] ; then
+		F_ORIG="$F"
+		[ -h "$F" ] && F=$(readlink "$F")
+		FT1=$(file -bi "$F" | grep -Eo '[[:alnum:]._-]+/[[:alnum:]._-]+')
+		DIR=$(mktemp -d -p . -t "$F_ORIG-XXXXXXXX")
+		pushd "$DIR"
+		case $FT1 in
+			application/*bzip2) tar xvjf "../$F" || bunzip2 "../$F" ;;
+			application/*gzip) tar xvzf "../$F" || gunzip "../$F" ;;
+			application/*xz) tar xvJf "../$F" || unxz "../$F" ;;
+			application/*tar) tar xvf "../$F" || gunzip "../$F" ;;
+			application/*rar) unrar x "../$F" || rar x "../$F" ;;
+			application/*zip) unzip "../$F" ;;
+			application/*arj) arj x "../$F" || 7za x "../$F" ;;
+			application/*lha) lha x "../$F" || 7za x "../$F" ;;
+			application/*cpio) cpio -i "../$F" ;;
+			application/*rpm) rpm2cpio "../$F" | cpio -idmv ;;
+			application/*iso9660-image) 7z x "../$F" ;;
+			application/*7za-compressed) 7za x "../$F" ;;
+			application/*7z-compressed) 7za x "../$F" ;;
+			application/x-lzma) lzma -dv "../$F" ;;
+			application/*debian.binary-package) ar vx "../$F" ;;
+			application/octet-stream) unlzma "../$F" || 7z x "../$F" || uncompress "../$F" ;;
+			*) echo "'../$F_ORIG' ($FT1) cannot be extracted via 'dancepill' shell function" ;;
+		esac
+		popd
+		# expecting only one file/directory to be extracted (prevent mess)
+		if [ "$(ls "$DIR" | wc -l)" == "1" ]; then
+			mv -v "$DIR"/* . && rmdir "$DIR"
+		fi
+		# remove empty dir
+		rmdir "$DIR" 2>/dev/null
+	else
+		echo "'$F' is not a valid file"
+	fi
+done

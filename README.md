@@ -19,29 +19,13 @@ terminal operations. Dancepill script to the rescue!
 Installation
 ------------
 
-The script is currently not packaged for any Linux distribution, but it's a
+The script is probably not packaged for any Linux distribution, but it's a
 short BASH script:
 
-    cd ~/bin
-    git clone https://github.com/lzap/dancepill.git
+    curl -o /usr/local/bin/e https://raw.githubusercontent.com/lzap/dancepill/master/dancepill
 
-And in your .bashrc do:
-
-    source ~/bin/dancepill/dancepill
-
-Logout or source it in your current terminal and start extracting:
-
-    eeee tarball.tar.gz
-    eeee tarball.tar.bzip2
-    eeee tarball.xz
-    eeee tarball.zip
-    eeee whatever
-
-There an function name called `dancepill` that does the extraction plus alias
-`eeee` for it. Dancepill also installs `e` alias, but only in case it was not
-yet used. If you still want to use this one, do this in your .bashrc:
-
-    alias e=dancepill
+Make sure to inspect the contents of the script before executing it, it is very
+short after all.
 
 Features
 --------
@@ -61,8 +45,8 @@ directory!
 Supported formats
 -----------------
 
-Format | Supported in
--------|-------------
+Format | Supported from
+-------|---------------
 7z     | 1.0
 arj    | 1.0
 bzip2  | 1.0
@@ -76,7 +60,13 @@ xz     | 1.0
 zip    | 1.0
 iso    | 1.0
 
+History
+-------
+
+* 1.0 - Initial version.
+* 1.1 - Changed it to be just a script not a BASH function.
+
 License
 -------
 
-This is PUBLIC DOMAIN, do what you need to do. Pull requests appreciated!
+This is PUBLIC DOMAIN. Pull requests appreciated!
