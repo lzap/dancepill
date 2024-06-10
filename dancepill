@@ -18,7 +18,7 @@ for F in "$@"; do
 			application/*lha) lha x "../$F" || 7za x "../$F" ;;
 			application/*cpio) cpio -i "../$F" ;;
 			application/*rpm) rpm2cpio "../$F" | cpio -idmv ;;
-			application/*iso9660-image) 7z x "../$F" ;;
+			application/*iso9660-image) xorriso -osirrox on -indev "../$F" -extract / . ;;
 			application/*7za-compressed) 7za x "../$F" ;;
 			application/*7z-compressed) 7za x "../$F" ;;
 			application/x-lzma) lzma -dv "../$F" ;;
